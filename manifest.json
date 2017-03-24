@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+
+  "name": "itachi",
+  "description": "This extension shows a Google Image search result for the current page",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "permissions": [
+    "storage",
+    "https://*/*",
+    "http://*/*",
+    "tabs",
+    "activeTab"
+  ],
+  "content_scripts": [
+      {
+      "matches": [
+        "https://stackoverflow.com/users/login*",
+        "https://www.facebook.com/login/*",
+        "https://twitter.com/login",
+        "https://www.pinterest.com/login/"
+        //,
+        //"https://www.quora.com/"
+      ], 
+      "js": ["autofill.js"], 
+      "run_at": "document_end",
+      "all_frames": true
+      }
+  ]
+
+}

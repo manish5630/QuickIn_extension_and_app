@@ -1,0 +1,160 @@
+
+
+//var myUsername = 'rayofhope.gs@gmail.com';
+//var myPassword = 'itachi123';
+background
+	var i=0;
+	if(i++ == 0){
+
+	var myUsername; 
+	var myPassword ;
+	var myId; 
+	var newURL ;
+
+	myId = 'quora';
+
+	switch(myId){
+		case 'stackoverflow': 
+			newURL = "https://stackoverflow.com/users/login"; 
+			myUsername = 'rayofhope.gs@gmail.com';
+			myPassword = 'itachi123';
+
+		break;
+		case 'facebook': 
+			newURL = "https://www.facebook.com/login/"; 
+			myUsername = 'k.manish.5630@gmail.com';
+			myPassword = 'minato123';
+
+		break;
+		case 'quora': 
+			newURL = "https://www.quora.com/"; 
+			myUsername = 'k.manish.5630@gmail.com';
+			myPassword = 'quora123';
+
+		break;
+	}
+
+	chrome.storage.local.set({'email': myUsername});
+    chrome.storage.local.set({'pass': myPassword});
+    chrome.storage.local.set({'id': myId});
+
+
+		
+	chrome.tabs.create({ url: newURL });
+
+
+
+/*
+all new urls are to be added to content scripts
+
+
+*/
+		
+	    
+
+		
+		
+		
+	}
+  
+
+
+
+
+
+
+
+
+
+
+/******************************************8*/
+autofill
+
+//var background = chrome.extension.getBackgroundPage();
+//chrome.runtime.sendMessage("hello");
+
+    var myUsername = "";
+	chrome.storage.local.get('email', function(result){
+        myUsername = result.email;
+        
+   
+	    var myPassword = "";
+	    chrome.storage.local.get('pass', function(result){
+	        myPassword = result.pass;
+
+
+		   var myId = "";   
+		   chrome.storage.local.get('id', function(result){
+		        myId = result.id;
+				
+
+				var loginField=null;
+				var passwordField=null;
+				var loginForm = null;
+				var defaultReplace = null;
+
+
+				switch(myId){
+					case 'stackoverflow' :
+						loginField = document.getElementById('email');
+						passwordField = document.getElementById('password');
+						loginForm = document.getElementById('submit-button');
+						defaultReplace = "https://stackoverflow.com";
+					break;
+
+					case 'facebook' :
+						loginField = document.getElementById('email');
+						passwordField = document.getElementById('pass');
+						loginForm = document.getElementById('loginbutton');
+						defaultReplace = "https://facebook.com";
+					break;
+
+					case 'quora' :
+						loginField = document.getElementByName('email')[0];
+						passwordField = document.getElementByName('password')[0];
+						loginForm = document.querySelectorAll('[id*="submit_button"]');
+						defaultReplace = null;
+						alert(loginField.id);
+					break;
+
+					default:
+						alert("id not defined!");
+
+				}
+
+				/*
+				if(myId == 'stackoverflow'){
+
+					loginField = document.getElementById('email');
+					passwordField = document.getElementById('password');
+					loginForm = document.getElementById('submit-button');
+					defaultReplace = "https://stackoverflow.com";
+
+				}else{
+					alert("id not defined!");
+				}  
+				*/
+
+
+
+
+				if(loginField == null || passwordField == null || loginForm ==null  ){
+					alert("hi");
+					if(defaultReplace != null ){
+						location.replace(defaultReplace);
+					}
+				}
+				else {
+					loginField.value = myUsername;
+					passwordField.value = myPassword;
+					loginForm.click();
+				}
+
+
+
+					
+				});
+	 	});
+
+	});
+
